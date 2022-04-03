@@ -1,25 +1,30 @@
-import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import App from './adapters/portals/App';
-import { MessageHandler } from './MessageHandler';
+//import { MessageHandler } from './MessageHandler';
+import { RestMessageHandler as MessageHandler } from './RestMessageHandler';
 import { StoreProvider } from './adapters/portals/StoreProvider';
-import { TodosRepository } from './adapters/providers/TodosRepository';
+import { TodosApi } from './adapters/providers/TodosApi';
+//import { LocalStorageTodosRepository as TodosRepository } from './adapters/providers/LocalStorageTodosRepository';
 import reportWebVitals from './reportWebVitals';
 
 import './index.css';
 
-const todosRepository = new TodosRepository();
-const messageHandler = new MessageHandler(todosRepository);
+const todosApi = new TodosApi();
+const messageHandler = new MessageHandler(todosApi);
+
+//const todosRepository = new TodosRepository();
+//const messageHandler = new MessageHandler(todosRepository);
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <Router>
       <StoreProvider messageHandler={messageHandler}>
         <App />
       </StoreProvider>
-    </BrowserRouter>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

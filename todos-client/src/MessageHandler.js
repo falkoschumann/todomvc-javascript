@@ -1,50 +1,53 @@
 export class MessageHandler {
+  #todosRepository;
+  #todos;
+
   constructor(todosRepository) {
-    this._todosRepository = todosRepository;
-    this._todos = todosRepository.load();
+    this.#todosRepository = todosRepository;
+    this.#todos = todosRepository.load();
   }
 
-  addTodo(title) {
+  async addTodo(title) {
     if (!title) {
       return;
     }
 
-    let id = this._todos.map((todo) => todo.id).reduce((id1, id2) => Math.max(id1, id2), 1);
+    let id = this.#todos.map((todo) => todo.id).reduce((id1, id2) => Math.max(id1, id2), 0);
     id++;
-    this._todos = this._todos.concat({ id, title, completed: false });
-    this._todosRepository.store(this._todos);
+    this.#todos = [...this.#todos, { id, title, completed: false }];
+    this.#todosRepository.store(this.#todos);
   }
 
-  toggleAll(checked) {
-    this._todos = this._todos.map((todo) => ({ ...todo, completed: checked }));
-    this._todosRepository.store(this._todos);
+  async toggleAll(checked) {
+    this.#todos = this.#todos.map((todo) => ({ ...todo, completed: checked }));
+    this.#todosRepository.store(this.#todos);
   }
 
-  toggle(todoId) {
-    this._todos = this._todos.map((todo) =>
-      todo.id !== todoId ? todo : { ...todo, completed: !todo.completed }
+  async toggle(todoId) {
+    this.#todos = this.#todos.map((todo) =>
+      todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
     );
-    this._todosRepository.store(this._todos);
+    this.#todosRepository.store(this.#todos);
   }
 
-  destroy(todoId) {
-    this._todos = this._todos.filter((todo) => todo.id !== todoId);
-    this._todosRepository.store(this._todos);
+  async destroy(todoId) {
+    this.#todos = this.#todos.filter((todo) => todo.id !== todoId);
+    this.#todosRepository.store(this.#todos);
   }
 
-  save(todoId, newTitle) {
-    this._todos = this._todos.map((todo) =>
-      todo.id !== todoId ? todo : { ...todo, title: newTitle }
+  async save(todoId, newTitle) {
+    this.#todos = this.#todos.map((todo) =>
+      todo.id === todoId ? { ...todo, title: newTitle } : todo
     );
-    this._todosRepository.store(this._todos);
+    this.#todosRepository.store(this.#todos);
   }
 
-  clearCompleted() {
-    this._todos = this._todos.filter((todo) => !todo.completed);
-    this._todosRepository.store(this._todos);
+  async clearCompleted() {
+    this.#todos = this.#todos.filter((todo) => !todo.completed);
+    this.#todosRepository.store(this.#todos);
   }
 
-  todos() {
-    return this._todos;
+  async selectTodos() {
+    return [...this.#todos];
   }
 }

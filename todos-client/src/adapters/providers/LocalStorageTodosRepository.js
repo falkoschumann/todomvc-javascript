@@ -1,12 +1,7 @@
-export class TodosRepository {
+export class LocalStorageTodosRepository {
   load() {
     const json = localStorage.getItem('todos');
-    if (!json) {
-      return [];
-    }
-
-    const todos = JSON.parse(json);
-    return todos;
+    return json ? JSON.parse(json) : [];
   }
 
   store(todos) {

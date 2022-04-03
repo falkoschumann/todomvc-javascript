@@ -20,7 +20,12 @@ export function StoreProvider({ messageHandler, children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    dispatch({ type: 'TODOS_LOADED', todos: messageHandler.todos() });
+    async function loadTodos() {
+      const todos = await messageHandler.selectTodos();
+      dispatch({ type: 'TODOS_LOADED', todos });
+    }
+
+    loadTodos();
   }, [messageHandler]);
 
   const onLocationChanged = useCallback((pathname) => {
@@ -32,33 +37,37 @@ export function StoreProvider({ messageHandler, children }) {
   }, []);
 
   const onAddTodo = useCallback(
-    (text) => {
-      messageHandler.addTodo(text);
-      dispatch({ type: 'TODO_ADDED', todos: messageHandler.todos() });
+    async (text) => {
+      await messageHandler.addTodo(text);
+      const todos = await messageHandler.selectTodos();
+      dispatch({ type: 'TODO_ADDED', todos });
     },
     [messageHandler]
   );
 
   const onToggleAll = useCallback(
-    (checked) => {
-      messageHandler.toggleAll(checked);
-      dispatch({ type: 'TOGGLED_ALL', todos: messageHandler.todos() });
+    async (checked) => {
+      await messageHandler.toggleAll(checked);
+      const todos = await messageHandler.selectTodos();
+      dispatch({ type: 'TOGGLED_ALL', todos });
     },
     [messageHandler]
   );
 
   const onToggle = useCallback(
-    (todoId) => {
-      messageHandler.toggle(todoId);
-      dispatch({ type: 'TOGGLED', todos: messageHandler.todos() });
+    async (todoId) => {
+      await messageHandler.toggle(todoId);
+      const todos = await messageHandler.selectTodos();
+      dispatch({ type: 'TOGGLED', todos });
     },
     [messageHandler]
   );
 
   const onDestroy = useCallback(
-    (todoId) => {
-      messageHandler.destroy(todoId);
-      dispatch({ type: 'DESTROYED', todos: messageHandler.todos() });
+    async (todoId) => {
+      await messageHandler.destroy(todoId);
+      const todos = await messageHandler.selectTodos();
+      dispatch({ type: 'DESTROYED', todos });
     },
     [messageHandler]
   );
@@ -68,9 +77,10 @@ export function StoreProvider({ messageHandler, children }) {
   }, []);
 
   const onSave = useCallback(
-    (todoId, newTitle) => {
-      messageHandler.save(todoId, newTitle);
-      dispatch({ type: 'SAVED', todos: messageHandler.todos() });
+    async (todoId, newTitle) => {
+      await messageHandler.save(todoId, newTitle);
+      const todos = await messageHandler.selectTodos();
+      dispatch({ type: 'SAVED', todos });
     },
     [messageHandler]
   );
@@ -79,9 +89,10 @@ export function StoreProvider({ messageHandler, children }) {
     dispatch({ type: 'CANCEL' });
   }, []);
 
-  const onClearCompleted = useCallback(() => {
-    messageHandler.clearCompleted();
-    dispatch({ type: 'CLEARED_COMPLETED', todos: messageHandler.todos() });
+  const onClearCompleted = useCallback(async () => {
+    await messageHandler.clearCompleted();
+    const todos = await messageHandler.selectTodos();
+    dispatch({ type: 'CLEARED_COMPLETED', todos });
   }, [messageHandler]);
 
   return (

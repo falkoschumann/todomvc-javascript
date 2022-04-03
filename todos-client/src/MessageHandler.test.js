@@ -1,69 +1,62 @@
 import { MessageHandler } from './MessageHandler';
-import { TodosRepository } from './adapters/providers/TodosRepository';
-
-jest.mock('./adapters/providers/TodosRepository');
-
-beforeEach(() => {
-  TodosRepository.mockClear();
-});
+import { MemoryTodosRepository as TodosRepository } from './adapters/providers/MemoryTodosRepository';
 
 describe('Add todo', () => {
   let todosRepository;
   beforeEach(() => {
-    todosRepository = new TodosRepository();
-    todosRepository.load = jest.fn(() => [{ id: 1, title: 'Taste JavaScript', completed: true }]);
+    todosRepository = new TodosRepository([{ id: 1, title: 'Taste JavaScript', completed: true }]);
   });
 
-  it('saves new todo', () => {
+  it('saves new todo', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    messageHandler.addTodo('Buy a Unicorn');
+    await messageHandler.addTodo('Buy a Unicorn');
 
-    expect(todosRepository.store).toBeCalledTimes(1);
-    expect(todosRepository.store).toBeCalledWith([
+    const todos = todosRepository.load();
+    expect(todos).toEqual([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: false },
     ]);
   });
 
-  it('does nothing if title is empty', () => {
+  it('does nothing if title is empty', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    messageHandler.addTodo('');
+    await messageHandler.addTodo('');
 
-    expect(todosRepository.store).not.toBeCalled();
+    const todos = todosRepository.load();
+    expect(todos).toEqual([{ id: 1, title: 'Taste JavaScript', completed: true }]);
   });
 });
 
 describe('Toggle all', () => {
   let todosRepository;
   beforeEach(() => {
-    todosRepository = new TodosRepository();
-    todosRepository.load = jest.fn(() => [
+    todosRepository = new TodosRepository([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: false },
     ]);
   });
 
-  it('set all todos completed', () => {
+  it('set all todos completed', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    messageHandler.toggleAll(true);
+    await messageHandler.toggleAll(true);
 
-    expect(todosRepository.store).toBeCalledTimes(1);
-    expect(todosRepository.store).toBeCalledWith([
+    const todos = todosRepository.load();
+    expect(todos).toEqual([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: true },
     ]);
   });
 
-  it('set all todos active', () => {
+  it('set all todos active', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    messageHandler.toggleAll(false);
+    await messageHandler.toggleAll(false);
 
-    expect(todosRepository.store).toBeCalledTimes(1);
-    expect(todosRepository.store).toBeCalledWith([
+    const todos = todosRepository.load();
+    expect(todos).toEqual([
       { id: 1, title: 'Taste JavaScript', completed: false },
       { id: 2, title: 'Buy a Unicorn', completed: false },
     ]);
@@ -73,32 +66,31 @@ describe('Toggle all', () => {
 describe('Toggle', () => {
   let todosRepository;
   beforeEach(() => {
-    todosRepository = new TodosRepository();
-    todosRepository.load = jest.fn(() => [
+    todosRepository = new TodosRepository([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: false },
     ]);
   });
 
-  it('marks the todo as completed', () => {
+  it('marks the todo as completed', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    messageHandler.toggle(2);
+    await messageHandler.toggle(2);
 
-    expect(todosRepository.store).toBeCalledTimes(1);
-    expect(todosRepository.store).toBeCalledWith([
+    const todos = todosRepository.load();
+    expect(todos).toEqual([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: true },
     ]);
   });
 
-  it('marks the todo as active', () => {
+  it('marks the todo as active', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    messageHandler.toggle(1);
+    await messageHandler.toggle(1);
 
-    expect(todosRepository.store).toBeCalledTimes(1);
-    expect(todosRepository.store).toBeCalledWith([
+    const todos = todosRepository.load();
+    expect(todos).toEqual([
       { id: 1, title: 'Taste JavaScript', completed: false },
       { id: 2, title: 'Buy a Unicorn', completed: false },
     ]);
@@ -108,42 +100,38 @@ describe('Toggle', () => {
 describe('Destroy', () => {
   let todosRepository;
   beforeEach(() => {
-    todosRepository = new TodosRepository();
-    todosRepository.load = jest.fn(() => [
+    todosRepository = new TodosRepository([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: false },
     ]);
   });
 
-  it('removes the todo', () => {
+  it('removes the todo', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    messageHandler.destroy(1);
+    await messageHandler.destroy(1);
 
-    expect(todosRepository.store).toBeCalledTimes(1);
-    expect(todosRepository.store).toBeCalledWith([
-      { id: 2, title: 'Buy a Unicorn', completed: false },
-    ]);
+    const todos = todosRepository.load();
+    expect(todos).toEqual([{ id: 2, title: 'Buy a Unicorn', completed: false }]);
   });
 });
 
 describe('Save', () => {
   let todosRepository;
   beforeEach(() => {
-    todosRepository = new TodosRepository();
-    todosRepository.load = jest.fn(() => [
+    todosRepository = new TodosRepository([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: false },
     ]);
   });
 
-  it('changes the todos title', () => {
+  it('changes the todos title', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    messageHandler.save(1, 'Taste TypeScript');
+    await messageHandler.save(1, 'Taste TypeScript');
 
-    expect(todosRepository.store).toBeCalledTimes(1);
-    expect(todosRepository.store).toBeCalledWith([
+    const todos = todosRepository.load();
+    expect(todos).toEqual([
       { id: 1, title: 'Taste TypeScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: false },
     ]);
@@ -153,39 +141,36 @@ describe('Save', () => {
 describe('Clear completed', () => {
   let todosRepository;
   beforeEach(() => {
-    todosRepository = new TodosRepository();
-    todosRepository.load = jest.fn(() => [
+    todosRepository = new TodosRepository([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: false },
     ]);
   });
 
-  it('removes completed todos', () => {
+  it('removes completed todos', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    messageHandler.clearCompleted();
+    await messageHandler.clearCompleted();
 
-    expect(todosRepository.store).toBeCalledTimes(1);
-    expect(todosRepository.store).toBeCalledWith([
-      { id: 2, title: 'Buy a Unicorn', completed: false },
-    ]);
+    const todos = todosRepository.load();
+    expect(todos).toEqual([{ id: 2, title: 'Buy a Unicorn', completed: false }]);
   });
 });
 
-describe('Todos', () => {
+describe('Select todos', () => {
   let todosRepository;
   beforeEach(() => {
-    todosRepository = new TodosRepository();
-    todosRepository.load = jest.fn(() => [
+    todosRepository = new TodosRepository([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: false },
     ]);
   });
 
-  it('loaded while initialization', () => {
+  it('selected all todos', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    const todos = messageHandler.todos();
+    const todos = await messageHandler.selectTodos();
+
     expect(todos).toEqual([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: false },
