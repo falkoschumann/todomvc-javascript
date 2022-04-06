@@ -7,11 +7,12 @@ describe('Add todo', () => {
     todosRepository = new TodosRepository([{ id: 1, title: 'Taste JavaScript', completed: true }]);
   });
 
-  it('saves new todo', async () => {
+  it('saves new todo and return it with created id', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    await messageHandler.addTodo('Buy a Unicorn');
+    const todo = await messageHandler.addTodo('Buy a Unicorn');
 
+    expect(todo).toEqual({ id: 2, title: 'Buy a Unicorn', completed: false });
     const todos = todosRepository.load();
     expect(todos).toEqual([
       { id: 1, title: 'Taste JavaScript', completed: true },

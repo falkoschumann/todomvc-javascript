@@ -14,7 +14,8 @@ export class MessageHandler {
 
     let id = this.#todos.map((todo) => todo.id).reduce((id1, id2) => Math.max(id1, id2), 0);
     id++;
-    this.#todos = [...this.#todos, { id, title, completed: false }];
+    const newTodo = { id, title, completed: false };
+    this.#todos = [...this.#todos, newTodo];
     this.#todosRepository.store(this.#todos);
   }
 
@@ -25,19 +26,19 @@ export class MessageHandler {
 
   async toggle(todoId) {
     this.#todos = this.#todos.map((todo) =>
-      todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
+      todo.id == todoId ? { ...todo, completed: !todo.completed } : todo
     );
     this.#todosRepository.store(this.#todos);
   }
 
   async destroy(todoId) {
-    this.#todos = this.#todos.filter((todo) => todo.id !== todoId);
+    this.#todos = this.#todos.filter((todo) => todo.id != todoId);
     this.#todosRepository.store(this.#todos);
   }
 
   async save(todoId, newTitle) {
     this.#todos = this.#todos.map((todo) =>
-      todo.id === todoId ? { ...todo, title: newTitle } : todo
+      todo.id == todoId ? { ...todo, title: newTitle } : todo
     );
     this.#todosRepository.store(this.#todos);
   }
