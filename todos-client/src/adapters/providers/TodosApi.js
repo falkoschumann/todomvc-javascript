@@ -1,10 +1,12 @@
+const DEFAULT_HEADERS = {
+  'Content-Type': 'application/json',
+};
+
 export class TodosApi {
   async create(todo) {
     const response = await fetch('/api/todos', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: DEFAULT_HEADERS,
       body: JSON.stringify(todo),
     });
     return response.json();
@@ -18,9 +20,7 @@ export class TodosApi {
   async update(todo) {
     await fetch(`/api/todos/${todo.id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: DEFAULT_HEADERS,
       body: JSON.stringify(todo),
     });
   }
@@ -41,9 +41,7 @@ export class TodosApi {
   async toggleAll(checked) {
     await fetch('/api/todos/toggle-all', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: DEFAULT_HEADERS,
       body: JSON.stringify({ checked }),
     });
   }

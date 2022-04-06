@@ -6,10 +6,6 @@ export class RestMessageHandler {
   }
 
   async addTodo(title) {
-    if (!title) {
-      return;
-    }
-
     this.#todosApi.create({ title });
   }
 

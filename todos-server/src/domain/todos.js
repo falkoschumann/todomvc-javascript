@@ -1,6 +1,10 @@
 let todos = [];
 
 function createTodo(todo) {
+  if (!todo.title) {
+    return;
+  }
+
   let id = todos.map((todo) => todo.id).reduce((id1, id2) => Math.max(id1, id2), 0);
   id++;
 
