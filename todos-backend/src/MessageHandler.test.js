@@ -1,5 +1,5 @@
 import { MessageHandler } from './MessageHandler';
-import { MemoryTodosRepository as TodosRepository } from './adapters/providers/MemoryTodosRepository';
+import { MemoryTodosRepository as TodosRepository } from './adapters/MemoryTodosRepository';
 
 describe('Add todo', () => {
   let todosRepository;
@@ -10,9 +10,8 @@ describe('Add todo', () => {
   it('saves new todo and return it with created id', async () => {
     const messageHandler = new MessageHandler(todosRepository);
 
-    const todo = await messageHandler.addTodo('Buy a Unicorn');
+    await messageHandler.addTodo('Buy a Unicorn');
 
-    expect(todo).toEqual({ id: 2, title: 'Buy a Unicorn', completed: false });
     const todos = todosRepository.load();
     expect(todos).toEqual([
       { id: 1, title: 'Taste JavaScript', completed: true },

@@ -10,9 +10,9 @@ import {
   postToggleTodo,
   putTodo,
 } from './adapters/portals/todoController.js';
-import { MessageHandler } from './MessageHandler.js';
-//import { MemoryTodosRepository as TodosRepository} from './adapters/providers/MemoryTodosRepository.js';
-import { JsonTodosRepository as TodosRepository } from './adapters/providers/JsonTodosRepository.js';
+import { MessageHandler } from 'todos-backend';
+//import { MemoryTodosRepository as TodosRepository} from 'todos-backend';
+import { JsonTodosRepository as TodosRepository } from 'todos-backend';
 
 const todosRepository = new TodosRepository();
 const messageHandler = new MessageHandler(todosRepository);

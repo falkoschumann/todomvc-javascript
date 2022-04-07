@@ -1,0 +1,8 @@
+{
+  "name": "todos",
+  "workspaces": [
+    "todos-backend",
+    "todos-client",
+    "todos-server"
+  ]
+}

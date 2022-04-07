@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import App from './adapters/portals/App';
-//import { MessageHandler } from './MessageHandler';
-import { RestMessageHandler as MessageHandler } from './RestMessageHandler';
+import { MessageHandler } from 'todos-backend';
+//import { RestMessageHandler as MessageHandler } from './RestMessageHandler';
 import { StoreProvider } from './adapters/portals/StoreProvider';
 import { TodosApi } from './adapters/providers/TodosApi';
-//import { LocalStorageTodosRepository as TodosRepository } from './adapters/providers/LocalStorageTodosRepository';
+//import { LocalStorageTodosRepository as TodosRepository } from 'todos-backend';
 import reportWebVitals from './reportWebVitals';
 
 import './index.css';
