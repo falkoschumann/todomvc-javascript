@@ -10,10 +10,11 @@ import {
   postToggleTodo,
   putTodo,
 } from './adapters/portals/todoController.js';
-import { MemoryTodosRepository } from './adapters/providers/MemoryTodosRepository.js';
 import { MessageHandler } from './MessageHandler.js';
+//import { MemoryTodosRepository as TodosRepository} from './adapters/providers/MemoryTodosRepository.js';
+import { JsonTodosRepository as TodosRepository } from './adapters/providers/JsonTodosRepository.js';
 
-const todosRepository = new MemoryTodosRepository();
+const todosRepository = new TodosRepository();
 const messageHandler = new MessageHandler(todosRepository);
 
 const app = express();
