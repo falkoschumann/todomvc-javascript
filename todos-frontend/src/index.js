@@ -2,11 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import App from './adapters/portals/App';
-import { MessageHandler } from 'todos-backend';
-//import { RestMessageHandler as MessageHandler } from './RestMessageHandler';
-import { StoreProvider } from './adapters/portals/StoreProvider';
-import { TodosApi } from './adapters/providers/TodosApi';
+import App from './components/App';
+import { RestMessageHandler as MessageHandler } from './RestMessageHandler';
+import { StoreProvider } from './components/StoreProvider';
+import { TodosApi } from './api/TodosApi';
 //import { LocalStorageTodosRepository as TodosRepository } from 'todos-backend';
 import reportWebVitals from './reportWebVitals';
 
