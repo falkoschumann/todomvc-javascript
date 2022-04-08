@@ -4,7 +4,7 @@ export class MessageHandler {
 
   constructor(todosRepository) {
     this.#todosRepository = todosRepository;
-    this.#todos = todosRepository.load();
+    this.#todos = this.#todosRepository.load();
   }
 
   async addTodo(title) {
@@ -26,19 +26,19 @@ export class MessageHandler {
 
   async toggle(todoId) {
     this.#todos = this.#todos.map((todo) =>
-      todo.id == todoId ? { ...todo, completed: !todo.completed } : todo
+      todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
     );
     this.#todosRepository.store(this.#todos);
   }
 
   async destroy(todoId) {
-    this.#todos = this.#todos.filter((todo) => todo.id != todoId);
+    this.#todos = this.#todos.filter((todo) => todo.id !== todoId);
     this.#todosRepository.store(this.#todos);
   }
 
   async save(todoId, newTitle) {
     this.#todos = this.#todos.map((todo) =>
-      todo.id == todoId ? { ...todo, title: newTitle } : todo
+      todo.id === todoId ? { ...todo, title: newTitle } : todo
     );
     this.#todosRepository.store(this.#todos);
   }
