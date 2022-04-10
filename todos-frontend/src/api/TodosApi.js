@@ -2,11 +2,11 @@ const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
 };
 
-async function addTodo({ text }) {
+async function addTodo({ title }) {
   await fetch('/api/todos', {
     method: 'POST',
     headers: DEFAULT_HEADERS,
-    body: JSON.stringify({ title: text }),
+    body: JSON.stringify({ title }),
   });
 }
 

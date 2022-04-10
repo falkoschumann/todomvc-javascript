@@ -1,8 +1,10 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 
-import { messageHandler, fileTodosRepository as todosRepository } from 'todos-backend';
+import { messageHandler } from 'todos-backend';
+
 import createTodosRouter from './routes/todos.js';
+import todosRepository from './adapters/FileTodosRepository.js';
 
 const app = express();
 const port = process.env.PORT ?? 3000;
