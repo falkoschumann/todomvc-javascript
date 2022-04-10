@@ -4,6 +4,9 @@
   "private": true,
   "main": "src/index.js",
   "type": "module",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest src",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch-all src",

@@ -5,6 +5,9 @@
     "todos-backend-server",
     "todos-frontend"
   ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "scripts": {
     "start": "concurrently \"npm start --workspace=todos-backend-server\" \" npm start --workspace=todos-frontend\"",
     "test": "npm run test --workspaces --if-present",

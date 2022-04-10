@@ -1,4 +1,4 @@
-# TodoMVC Javascript mit React und Express
+# TodoMVC JavaScript mit React und Express
 
 ## Commands
 
