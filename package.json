@@ -8,13 +8,18 @@
   "scripts": {
     "start": "concurrently \"npm start --workspace=todos-backend-server\" \" npm start --workspace=todos-frontend\"",
     "test": "npm run test --workspaces --if-present",
-    "eslint": "npm run eslint --workspaces",
-    "eslint:fix": "npm run eslint:fix --workspaces",
+    "analyze": "npm run eslint && npm run prettier:check",
+    "eslint": "eslint */src",
+    "eslint:fix": "eslint --fix */src",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write ."
   },
   "devDependencies": {
     "concurrently": "^7.1.0",
+    "eslint": "^8.12.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
     "prettier": "^2.6.1"
   }
 }
