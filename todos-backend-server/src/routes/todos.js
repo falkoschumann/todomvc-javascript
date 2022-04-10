@@ -1,52 +1,50 @@
-import { Router } from 'express';
+import express from 'express';
 
-import {
-  deleteTodo,
-  getTodos,
-  postClearCompletedTodos,
-  postTodo,
-  postToggleAllTodos,
-  postToggleTodo,
-  putTodo,
-} from '../controllers/todos.js';
+import todosController from '../controllers/todos.js';
 
-export function createTodosRouter(messageHandler) {
-  const router = new Router();
-
+function createRouter(messageHandler, todosRepository) {
+  const router = new express.Router();
   router.post(
     '/api/todos',
-    postTodo((title) => messageHandler.addTodo(title))
+    todosController.postTodo({
+      addTodo: (title) => messageHandler.addTodo(todosRepository, { title }),
+    })
   );
-
   router.get(
     '/api/todos',
-    getTodos(() => messageHandler.selectTodos())
+    todosController.getTodos({ selectTodos: () => messageHandler.selectTodos(todosRepository) })
   );
-
   router.put(
     '/api/todos/:id',
-    putTodo((todoId, newTitle) => messageHandler.save(todoId, newTitle))
+    todosController.putTodo({
+      save: (todoId, newTitle) => messageHandler.save(todosRepository, { todoId, newTitle }),
+    })
   );
-
   router.delete(
     '/api/todos/:id',
-    deleteTodo((todoId) => messageHandler.destroy(todoId))
+    todosController.deleteTodo({
+      destroy: (todoId) => messageHandler.destroy(todosRepository, { todoId }),
+    })
   );
-
   router.post(
     '/api/todos/:id/toggle',
-    postToggleTodo((todoId) => messageHandler.toggle(todoId))
+    todosController.postToggleTodo({
+      toggle: (todoId) => messageHandler.toggle(todosRepository, { todoId }),
+    })
   );
-
   router.post(
     '/api/todos/toggle-all',
-    postToggleAllTodos((checked) => messageHandler.toggleAll(checked))
+    todosController.postToggleAllTodos({
+      toggleAll: (checked) => messageHandler.toggleAll(todosRepository, { checked }),
+    })
   );
-
   router.post(
     '/api/todos/clear-completed',
-    postClearCompletedTodos(() => messageHandler.clearCompleted())
+    todosController.postClearCompletedTodos({
+      clearCompleted: () => messageHandler.clearCompleted(todosRepository),
+    })
   );
-
   return router;
 }
+
+export default createRouter;

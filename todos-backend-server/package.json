@@ -6,7 +6,6 @@
   "type": "module",
   "scripts": {
     "start": "PORT=3001 nodemon src/app.js",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest src",
     "eslint": "eslint src",
     "eslint:fix": "eslint --fix src",
     "prettier:check": "prettier --check src",

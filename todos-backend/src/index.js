@@ -1,4 +1,4 @@
-export * from './MessageHandler.js';
-export * from './adapters/JsonTodosRepository.js';
-export * from './adapters/LocalStorageTodosRepository.js';
-export * from './adapters/MemoryTodosRepository.js';
+export { default as messageHandler } from './MessageHandler.js';
+export { default as fileTodosRepository } from './adapters/FileTodosRepository.js';
+export { default as localStorageTodosRepository } from './adapters/LocalStorageTodosRepository.js';
+export { default as memoryTodosRepository } from './adapters/MemoryTodosRepository.js';

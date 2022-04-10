@@ -1,22 +1,22 @@
 const CREATED = 201;
 const NO_CONTENT = 204;
 
-export function postTodo(addTodo) {
+function postTodo({ addTodo }) {
   return async (req, res) => {
     let title = String(req.body.title);
     await addTodo(title);
-    res.status(CREATED);
+    res.sendStatus(CREATED);
   };
 }
 
-export function getTodos(selectTodos) {
+function getTodos({ selectTodos }) {
   return async (req, res) => {
     const todos = await selectTodos();
     res.send(todos);
   };
 }
 
-export function putTodo(save) {
+function putTodo({ save }) {
   return async (req, res) => {
     const todoId = Number(req.params.id);
     const newTitle = String(req.body.title);
@@ -25,7 +25,7 @@ export function putTodo(save) {
   };
 }
 
-export function deleteTodo(destroy) {
+function deleteTodo({ destroy }) {
   return async (req, res) => {
     const todoId = Number(req.params.id);
     await destroy(todoId);
@@ -33,7 +33,7 @@ export function deleteTodo(destroy) {
   };
 }
 
-export function postToggleTodo(toggle) {
+function postToggleTodo({ toggle }) {
   return async (req, res) => {
     const todoId = Number(req.params.id);
     await toggle(todoId);
@@ -41,7 +41,7 @@ export function postToggleTodo(toggle) {
   };
 }
 
-export function postToggleAllTodos(toggleAll) {
+function postToggleAllTodos({ toggleAll }) {
   return async (req, res) => {
     const checked = Boolean(req.body.checked);
     await toggleAll(checked);
@@ -49,9 +49,19 @@ export function postToggleAllTodos(toggleAll) {
   };
 }
 
-export function postClearCompletedTodos(clearCompleted) {
+function postClearCompletedTodos({ clearCompleted }) {
   return async (req, res) => {
     await clearCompleted();
     res.sendStatus(NO_CONTENT);
   };
 }
+
+export default {
+  postTodo,
+  getTodos,
+  putTodo,
+  deleteTodo,
+  postToggleTodo,
+  postToggleAllTodos,
+  postClearCompletedTodos,
+};

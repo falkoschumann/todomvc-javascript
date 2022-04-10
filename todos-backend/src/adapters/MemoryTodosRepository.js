@@ -1,15 +1,11 @@
-export class MemoryTodosRepository {
-  #todos;
+let storedTodos = [];
 
-  constructor(todos = []) {
-    this.#todos = todos;
-  }
-
-  load() {
-    return this.#todos;
-  }
-
-  store(todos) {
-    this.#todos = todos;
-  }
+function loadTodos() {
+  return storedTodos;
 }
+
+function storeTodos(todos) {
+  storedTodos = todos;
+}
+
+export default { loadTodos, storeTodos };

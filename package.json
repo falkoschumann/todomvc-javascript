@@ -4,5 +4,16 @@
     "todos-backend",
     "todos-backend-server",
     "todos-frontend"
-  ]
+  ],
+  "scripts": {
+    "start": "concurrently \"npm start --workspace=todos-backend-server\" \" npm start --workspace=todos-frontend\"",
+    "test": "npm run test --workspaces --if-present",
+    "eslint": "npm run eslint --workspaces",
+    "eslint:fix": "npm run eslint:fix --workspaces",
+    "prettier:check": "npm run prettier:check --workspaces",
+    "prettier:write": "npm run prettier:write --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^7.1.0"
+  }
 }
