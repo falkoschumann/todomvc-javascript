@@ -7,9 +7,7 @@
   "scripts": {
     "start": "PORT=3001 nodemon src/app.js",
     "eslint": "eslint src",
-    "eslint:fix": "eslint --fix src",
-    "prettier:check": "prettier --check src",
-    "prettier:write": "prettier --write src"
+    "eslint:fix": "eslint --fix src"
   },
   "dependencies": {
     "todos-backend": "^0.1.0",
@@ -22,8 +20,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "jest": "^27.5.1",
-    "nodemon": "^2.0.15",
-    "prettier": "^2.6.1"
+    "nodemon": "^2.0.15"
   },
   "jest": {
     "collectCoverage": false,

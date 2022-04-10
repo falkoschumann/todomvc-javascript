@@ -9,16 +9,13 @@
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch-all src",
     "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest src --coverage",
     "eslint": "eslint src",
-    "eslint:fix": "eslint --fix src",
-    "prettier:check": "prettier --check src",
-    "prettier:write": "prettier --write src"
+    "eslint:fix": "eslint --fix src"
   },
   "devDependencies": {
     "eslint": "^8.12.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-promise": "^6.0.0",
-    "jest": "^27.5.1",
-    "prettier": "^2.6.1"
+    "jest": "^27.5.1"
   },
   "jest": {
     "collectCoverage": false,

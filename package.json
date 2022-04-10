@@ -10,10 +10,11 @@
     "test": "npm run test --workspaces --if-present",
     "eslint": "npm run eslint --workspaces",
     "eslint:fix": "npm run eslint:fix --workspaces",
-    "prettier:check": "npm run prettier:check --workspaces",
-    "prettier:write": "npm run prettier:write --workspaces"
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write ."
   },
   "devDependencies": {
-    "concurrently": "^7.1.0"
+    "concurrently": "^7.1.0",
+    "prettier": "^2.6.1"
   }
 }
